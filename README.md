@@ -1,5 +1,5 @@
 # RunOnSave
-A simple .NET Core tool to run shell command(s) whenever a file/folder changes.
+A simple .NET Core tool to run shell command(s) whenever a file/folder changes. I use this tool with IIS Express to have Live Reload for Cordova.
 
 ![Use for Live Reloading for Cordova](https://i.imgur.com/vQcBmIX.png)
 
