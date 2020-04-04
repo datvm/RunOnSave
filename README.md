@@ -37,7 +37,7 @@ There can only be one execution at the same time. If there is file change during
 
 On Windows, the commands are executed by calling `cmd /c <the command>`, therefore you may have trouble with the double quote. For example, if I run from PowerShell:
 
-```runonsave .\ "`"D:\Some Path\script.bat`""
+```runonsave .\ "`"D:\Some Path\script.bat`""```
 
 The script receive the argument as the string `"D:\Some Path\script.bat"` and then when entered into `cmd /c` it becomes:
 
@@ -47,4 +47,4 @@ Which, in turn cause problem because the command is actually `D:\Some Path\scrip
 
 To solve it, please use double quote instead:
 
-```runonsave .\ "`"`"D:\Some Path\script.bat`"`""
+```runonsave .\ "`"`"D:\Some Path\script.bat`"`""```
