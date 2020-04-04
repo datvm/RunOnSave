@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace LukeVo.RunOnSave.GlobalTool
 {
@@ -58,7 +59,14 @@ namespace LukeVo.RunOnSave.GlobalTool
             };
 
             Action<object, FileSystemEventArgs> handler1 = (_, e) =>
-                OnFileChanged(commands, e.Name);
+            {
+                monitor.EnableRaisingEvents = false;
+
+                Console.WriteLine($"{e.Name} {e.ChangeType}.");
+                OnFileChanged(commands);
+
+                monitor.EnableRaisingEvents = true;
+            };
 
             monitor.Changed += handler1.Invoke;
             monitor.Created += handler1.Invoke;
@@ -111,19 +119,19 @@ namespace LukeVo.RunOnSave.GlobalTool
                 }).ToList();
         }
 
-        static void OnFileChanged(IEnumerable<ProcessStartInfo> commands, string filePath)
+        static void OnFileChanged(IEnumerable<ProcessStartInfo> commands)
         {
-            Console.WriteLine($"{filePath} changed.");
-
             foreach (var command in commands)
             {
                 RunCommand(command);
             }
+
+            Console.WriteLine("----------------");
         }
 
         static void RunCommand(ProcessStartInfo processInfo)
         {
-            Console.WriteLine($"{processInfo.Arguments.Substring(processInfo.FileName == "cmd" ? 3 : 0)}");
+            Console.WriteLine($"RunOnSave > {processInfo.Arguments.Substring(processInfo.FileName == "cmd" ? 3 : 0)}");
 
             var process = new Process()
             {
@@ -136,12 +144,17 @@ namespace LukeVo.RunOnSave.GlobalTool
                 Console.WriteLine(process.StandardOutput.ReadLine());
             }
 
+            while (!process.StandardError.EndOfStream)
+            {
+                Console.WriteLine(process.StandardError.ReadLine());
+            }
+
             process.WaitForExit();
         }
 
         static void PrintSyntax()
         {
-            Console.WriteLine("runonsave <path> <command1> [<command2>, [<command...>]]");
+            Console.WriteLine("runonsave <path> <command1> [<command2> [<command...>]]");
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine("Monitor the <path> (can be file or folder) and execute the shell commands when there is changes");
         }
