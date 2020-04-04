@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>runonsave</ToolCommandName>
+        <PackageOutputPath>./nupkg</PackageOutputPath>
+        <PackageId>LukeVo.RunOnSave</PackageId>
+        <Authors>Luke Vo</Authors>
+        <Product>Run on Save .NET Tool</Product>
+        <Description>A simple tool to run shell command(s) whenever a file/folder changes.</Description>
+        <Copyright>Copyright 2020 Luke Vo</Copyright>
+    </PropertyGroup>
+
+</Project>
